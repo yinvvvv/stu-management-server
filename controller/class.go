@@ -36,10 +36,12 @@ func GetRankByClass(c *gin.Context) {
 func GetClassList(c *gin.Context) {
 	fmt.Println("getClassList()")
 	majorId := c.Param("major_id")
-	sql := "select zjw_class.id, zjw_major.title, zjw_class.year, zjw_class.sub_id " +
-		"from zjw_major, zjw_class " +
-		"where zjw_class.major_id = zjw_major.id " +
-		"and zjw_major.id = ?"
+	sql := `
+		select zjw_class.id, zjw_major.title, zjw_class.year, zjw_class.sub_id 
+		from zjw_major, zjw_class 
+		where zjw_class.major_id = zjw_major.id 
+		and zjw_major.id = ?
+	`
 	stmt, _ := util.Db.Prepare(sql)
 	rows, _ := stmt.Query(majorId)
 	defer rows.Close()
