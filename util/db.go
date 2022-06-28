@@ -19,13 +19,7 @@ func InitDB(dataSourceName string) {
 	}
 }
 
-func QueryAndParse(Db *sql.DB, queryStr string) map[string]string {
-	rows, err := Db.Query(queryStr)
-	defer rows.Close()
-	if err != nil {
-		log.Printf("查询出错,SQL语句:%s\n错误详情:%s\n", queryStr, err.Error())
-		return nil
-	}
+func QueryAndParse(rows *sql.Rows) map[string]string {
 	cols, _ := rows.Columns()
 	if len(cols) > 0 {
 		buff := make([]interface{}, len(cols))
@@ -48,13 +42,7 @@ func QueryAndParse(Db *sql.DB, queryStr string) map[string]string {
 	}
 }
 
-func QueryAndParseRows(Db *sql.DB, queryStr string) []map[string]string {
-	rows, err := Db.Query(queryStr)
-	defer rows.Close()
-	if err != nil {
-		fmt.Printf("查询出错:\nSQL:\n%s, 错误详情:%s\n", queryStr, err.Error())
-		return nil
-	}
+func QueryAndParseRows(rows *sql.Rows) []map[string]string {
 	cols, _ := rows.Columns()
 	if len(cols) > 0 {
 		var ret []map[string]string

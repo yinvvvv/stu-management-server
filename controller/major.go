@@ -9,7 +9,8 @@ import (
 func GetMajorList(c *gin.Context) {
 	fmt.Println("getMajorList()")
 	sql := "SELECT * FROM zjw_major"
-	result := util.QueryAndParseRows(util.Db, sql)
+	rows, _ := util.Db.Query(sql)
+	result := util.QueryAndParseRows(rows)
 	c.JSON(200, gin.H{
 		"code": 0,
 		"data": result,
