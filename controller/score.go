@@ -67,6 +67,21 @@ func AddScore(c *gin.Context) {
 
 func GetStudentScore(c *gin.Context) {
 	fmt.Println("getStudentScore()")
+	studentId := c.Param("student_id")
+	sql := `
+		select zjw_course.*, zjw_score.score from zjw_score, zjw_course
+		where zjw_score.course_id = zjw_course.id
+		and zjw_score.student_id = ?;
+	`
+	stmt, _ := util.Db.Prepare(sql)
+	defer stmt.Close()
+	rows, _ := stmt.Query(studentId)
+	defer rows.Close()
+	result := util.QueryAndParseRows(rows)
+	c.JSON(200, gin.H{
+		"code": 0,
+		"data": result,
+	})
 }
 
 func GetStudentScoreByYear(c *gin.Context) {
