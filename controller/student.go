@@ -12,7 +12,9 @@ func GetCourseByStudent(c *gin.Context) {
 	fmt.Println("getCourseByStudent()")
 	id := c.Param("id")
 	sql := `
-		
+		select zjw_course.* from zjw_score, zjw_course
+		where zjw_score.course_id = zjw_course.id
+		and zjw_score.student_id = ?;
 	`
 	stmt, _ := util.Db.Prepare(sql)
 	rows, _ := stmt.Query(id)
