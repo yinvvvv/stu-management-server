@@ -36,7 +36,6 @@ func main() {
 	// score
 	score := router.Group("/score")
 	{
-		score.GET("/year/:year", controller.GetScoreByYear)
 		score.GET("/course/:course_id", controller.GetAvgScoreByCourse)
 		score.POST("/add", controller.AddScore)
 		score.GET("/student/:student_id", controller.GetStudentScore)
@@ -46,6 +45,7 @@ func main() {
 	course := router.Group("/course")
 	{
 		course.GET("/list", controller.GetCourseList)
+		course.GET("/rank/:id", controller.GetCourseRank)
 	}
 
 	// student
@@ -53,6 +53,7 @@ func main() {
 	{
 		student.GET("/course/:id", controller.GetCourseByStudent)
 		student.GET("/list/:class_id", controller.GetStudentList)
+		student.GET("/score/:id/:year", controller.GetStudentScoreByYear)
 	}
 
 	// teacher

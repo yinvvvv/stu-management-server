@@ -42,3 +42,25 @@ func GetStudentList(c *gin.Context) {
 		"data": result,
 	})
 }
+
+func GetStudentScoreByYear(c *gin.Context) {
+	fmt.Println("getStudentScoreByYear()")
+	id := c.Param("id")
+	year := c.Param("year")
+	sql := `
+		select zjw_course.title, zjw_score.score from zjw_score, zjw_course, zjw_class
+		where zjw_score.course_id = zjw_course.id
+		and zjw_course.class_id = zjw_class.id
+		and zjw_class.year + zjw_course.year = ? + 1
+		and zjw_score.student_id = ?;
+	`
+	stmt, _ := util.Db.Prepare(sql)
+	defer stmt.Close()
+	rows, _ := stmt.Query(year, id)
+	defer rows.Close()
+	result := util.QueryAndParseRows(rows)
+	c.JSON(200, gin.H{
+		"code": 0,
+		"data": result,
+	})
+}
