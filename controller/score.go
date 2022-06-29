@@ -15,6 +15,21 @@ type ScoreForm struct {
 
 func GetAvgScoreByCourse(c *gin.Context) {
 	fmt.Println("getAvgScoreByCourse()")
+	courseId := c.Param("course_id")
+	sql := `
+		select zjw_course.title, avg(zjw_score.score) as avg_score from zjw_course, zjw_score
+		where zjw_score.course_id = zjw_course.id
+		and zjw_course.id = ?;
+	`
+	stmt, _ := util.Db.Prepare(sql)
+	defer stmt.Close()
+	rows, _ := stmt.Query(courseId)
+	defer rows.Close()
+	result := util.QueryAndParseRows(rows)
+	c.JSON(200, gin.H{
+		"code": 0,
+		"data": result,
+	})
 }
 
 func AddScore(c *gin.Context) {
@@ -39,7 +54,7 @@ func AddScore(c *gin.Context) {
 		msg = err2.Error()
 	} else {
 		ra, _ := rs.RowsAffected()
-		msg := "Affected rows: " + strconv.FormatInt(ra, 10)
+		msg = "Affected rows: " + strconv.FormatInt(ra, 10)
 		fmt.Println(msg)
 	}
 
