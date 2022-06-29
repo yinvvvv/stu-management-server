@@ -84,6 +84,19 @@ func GetStudentScore(c *gin.Context) {
 	})
 }
 
-func GetStudentScoreByYear(c *gin.Context) {
+func GetScoreByYear(c *gin.Context) {
 	fmt.Println("getStudentScoreByYear()")
+	year := c.Param("year")
+	sql := `
+		
+	`
+	stmt, _ := util.Db.Prepare(sql)
+	defer stmt.Close()
+	rows, _ := stmt.Query(year)
+	defer rows.Close()
+	result := util.QueryAndParseRows(rows)
+	c.JSON(200, gin.H{
+		"code": 0,
+		"data": result,
+	})
 }
