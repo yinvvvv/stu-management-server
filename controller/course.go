@@ -6,6 +6,8 @@ import (
 	"stu-management-server/util"
 )
 
+// /course
+
 func GetCourseList(c *gin.Context) {
 	fmt.Println("getCourseList()")
 	sql := "Select * from zjw_course"

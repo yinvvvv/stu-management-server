@@ -6,8 +6,22 @@ import (
 	"stu-management-server/util"
 )
 
+// /student
+
 func GetCourseByStudent(c *gin.Context) {
 	fmt.Println("getCourseByStudent()")
+	id := c.Param("id")
+	sql := `
+		
+	`
+	stmt, _ := util.Db.Prepare(sql)
+	rows, _ := stmt.Query(id)
+	defer rows.Close()
+	result := util.QueryAndParseRows(rows)
+	c.JSON(200, gin.H{
+		"code": 0,
+		"data": result,
+	})
 }
 
 func GetStudentList(c *gin.Context) {

@@ -6,6 +6,8 @@ import (
 	"stu-management-server/util"
 )
 
+// /class
+
 func GetCourseByClass(c *gin.Context) {
 	fmt.Println("getCourseByClass()")
 	id := c.Param("id")
@@ -29,6 +31,7 @@ func GetCourseByClass(c *gin.Context) {
 	})
 }
 
+// GetRankByClass TODO:
 func GetRankByClass(c *gin.Context) {
 	fmt.Println("getRankByClass()")
 }

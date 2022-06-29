@@ -6,6 +6,8 @@ import (
 	"stu-management-server/util"
 )
 
+// /major
+
 func GetMajorList(c *gin.Context) {
 	fmt.Println("getMajorList()")
 	sql := "SELECT * FROM zjw_major"
