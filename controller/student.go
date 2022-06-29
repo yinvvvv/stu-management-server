@@ -50,11 +50,9 @@ func GetStudentScoreByYear(c *gin.Context) {
 	id := c.Param("id")
 	year := c.Param("year")
 	sql := `
-		select zjw_course.title, zjw_score.score from zjw_score, zjw_course, zjw_class
-		where zjw_score.course_id = zjw_course.id
-		and zjw_course.class_id = zjw_class.id
-		and zjw_class.year + zjw_course.year = ? + 1
-		and zjw_score.student_id = ?;
+		select * from zjw_student_score_by_year
+		where class_year + course_year = ? + 1
+		and student_id = ?;
 	`
 	stmt, _ := util.Db.Prepare(sql)
 	defer stmt.Close()

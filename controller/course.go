@@ -24,11 +24,8 @@ func GetCourseRank(c *gin.Context) {
 	fmt.Println("getCourseRank()")
 	id := c.Param("id")
 	sql := `
-		select zjw_student.name, zjw_score.score from zjw_score, zjw_course, zjw_student
-		where zjw_score.course_id = zjw_course.id
-		and zjw_score.student_id = zjw_student.id
-		and zjw_course.id = ?
-		order by zjw_score.score desc;
+		select * from zjw_course_rank
+		where course_id = ?;
 	`
 	stmt, _ := util.Db.Prepare(sql)
 	defer stmt.Close()
