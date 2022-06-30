@@ -20,7 +20,7 @@ func GetTeacherList(c *gin.Context) {
 
 func GetTeacherCourse(c *gin.Context) {
 	fmt.Println("getTeacherCourse()")
-	id := c.Param("id")
+	id := c.Query("id")
 	sql := `
 		select zjw_course.*
 		from zjw_course, zjw_teacher, zjw_teach

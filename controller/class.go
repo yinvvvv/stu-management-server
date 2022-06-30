@@ -10,7 +10,7 @@ import (
 
 func GetCourseByClass(c *gin.Context) {
 	fmt.Println("getCourseByClass()")
-	id := c.Param("id")
+	id := c.Query("id")
 	sql := "select zjw_course.* " +
 		"from zjw_class, zjw_course " +
 		"where zjw_class.id = zjw_course.class_id " +
@@ -38,7 +38,7 @@ func GetRankByClass(c *gin.Context) {
 
 func GetClassList(c *gin.Context) {
 	fmt.Println("getClassList()")
-	majorId := c.Param("major_id")
+	majorId := c.Query("major_id")
 	sql := `
 		select zjw_class.id, zjw_major.title, zjw_class.year, zjw_class.sub_id 
 		from zjw_major, zjw_class 

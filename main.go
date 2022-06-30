@@ -19,48 +19,54 @@ func main() {
 
 	router := gin.Default()
 
-	// major
-	major := router.Group("/major")
+	r := router.Group("/api")
 	{
-		major.GET("/list", controller.GetMajorList)
-	}
 
-	// class
-	class := router.Group("/class")
-	{
-		class.GET("/course/:id", controller.GetCourseByClass)
-		class.GET("/rank/:id", controller.GetRankByClass)
-		class.GET("/list/:major_id", controller.GetClassList)
-	}
+		// major
+		major := r.Group("/major")
+		{
+			major.GET("/list", controller.GetMajorList)
+		}
 
-	// score
-	score := router.Group("/score")
-	{
-		score.GET("/course/:course_id", controller.GetAvgScoreByCourse)
-		score.POST("/add", controller.AddScore)
-		score.GET("/student/:student_id", controller.GetStudentScore)
-	}
+		// class
+		class := r.Group("/class")
+		{
+			class.GET("/course", controller.GetCourseByClass)
+			class.GET("/rank", controller.GetRankByClass)
+			class.GET("/list", controller.GetClassList)
+		}
 
-	// course
-	course := router.Group("/course")
-	{
-		course.GET("/list", controller.GetCourseList)
-		course.GET("/rank/:id", controller.GetCourseRank)
-	}
+		// score
+		score := r.Group("/score")
+		{
+			score.GET("/course", controller.GetAvgScoreByCourse)
+			score.POST("/add", controller.AddScore)
+			score.GET("/student", controller.GetStudentScore)
+		}
 
-	// student
-	student := router.Group("/student")
-	{
-		student.GET("/course/:id", controller.GetCourseByStudent)
-		student.GET("/list/:class_id", controller.GetStudentList)
-		student.GET("/score/:id/:year", controller.GetStudentScoreByYear)
-	}
+		// course
+		course := r.Group("/course")
+		{
+			course.GET("/list", controller.GetCourseList)
+			course.GET("/rank", controller.GetCourseRank)
+			course.GET("/avg", controller.GetCourseAvg)
+		}
 
-	// teacher
-	teacher := router.Group("/teacher")
-	{
-		teacher.GET("/list", controller.GetTeacherList)
-		teacher.GET("/course/:id", controller.GetTeacherCourse)
+		// student
+		student := r.Group("/student")
+		{
+			student.GET("/class/course", controller.GetStudentClassCourse)
+			student.GET("/course", controller.GetCourseByStudent)
+			student.GET("/list", controller.GetStudentList)
+			student.GET("/score", controller.GetStudentScoreByYear)
+		}
+
+		// teacher
+		teacher := r.Group("/teacher")
+		{
+			teacher.GET("/list", controller.GetTeacherList)
+			teacher.GET("/course", controller.GetTeacherCourse)
+		}
 	}
 
 	router.Run() // 监听并在 0.0.0.0:8080 上启动服务

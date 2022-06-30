@@ -15,7 +15,7 @@ type ScoreForm struct {
 
 func GetAvgScoreByCourse(c *gin.Context) {
 	fmt.Println("getAvgScoreByCourse()")
-	courseId := c.Param("course_id")
+	courseId := c.Query("course_id")
 	sql := `
 		select zjw_course.title, avg(zjw_score.score) as avg_score from zjw_course, zjw_score
 		where zjw_score.course_id = zjw_course.id
@@ -67,7 +67,7 @@ func AddScore(c *gin.Context) {
 
 func GetStudentScore(c *gin.Context) {
 	fmt.Println("getStudentScore()")
-	studentId := c.Param("student_id")
+	studentId := c.Query("student_id")
 	sql := `
 		select zjw_course.*, zjw_score.score from zjw_score, zjw_course
 		where zjw_score.course_id = zjw_course.id
@@ -86,7 +86,7 @@ func GetStudentScore(c *gin.Context) {
 
 func GetScoreByYear(c *gin.Context) {
 	fmt.Println("getStudentScoreByYear()")
-	year := c.Param("year")
+	year := c.Query("year")
 	sql := `
 		
 	`
