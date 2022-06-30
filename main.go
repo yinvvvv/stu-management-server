@@ -2,8 +2,11 @@ package main
 
 import (
 	"fmt"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"stu-management-server/controller"
+	"stu-management-server/middleware"
 	"stu-management-server/util"
 )
 
@@ -18,9 +21,14 @@ func main() {
 	defer util.Db.Close()
 
 	router := gin.Default()
+	router.Use(sessions.Sessions("SESSIONID", cookie.NewStore([]byte("secret"))))
+
+	router.POST("/api/login", controller.Login)
 
 	r := router.Group("/api")
 	{
+
+		r.Use(middleware.AuthCheck)
 
 		// major
 		major := r.Group("/major")
