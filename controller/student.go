@@ -84,3 +84,23 @@ func GetStudentScoreByYear(c *gin.Context) {
 		"data": result,
 	})
 }
+
+func GetStudentGPAByYear(c *gin.Context) {
+	fmt.Println("getStudentGPAByYear()")
+	id := c.Query("id")
+	year := c.Query("year")
+	sql := `
+		select (SUM(score) / COUNT(*)) / 20 AS GPA from zjw_student_score_by_year
+		where class_year + course_year = ? + 1
+		and student_id = ?;
+	`
+	stmt, _ := util.Db.Prepare(sql)
+	defer stmt.Close()
+	rows, _ := stmt.Query(year, id)
+	defer rows.Close()
+	result := util.QueryAndParse(rows)
+	c.JSON(200, gin.H{
+		"code": 0,
+		"data": result,
+	})
+}

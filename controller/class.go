@@ -11,10 +11,9 @@ import (
 func GetCourseByClass(c *gin.Context) {
 	fmt.Println("getCourseByClass()")
 	id := c.Query("id")
-	sql := "select zjw_course.* " +
-		"from zjw_class, zjw_course " +
-		"where zjw_class.id = zjw_course.class_id " +
-		"and zjw_class.id = ?; "
+	sql := `select zjw_course.* from zjw_class, zjw_course 
+                    where zjw_class.id = zjw_course.class_id 
+                      and zjw_class.id = ?; `
 	stmt, err := util.Db.Prepare(sql)
 	if err != nil {
 		fmt.Println(err)
@@ -34,6 +33,19 @@ func GetCourseByClass(c *gin.Context) {
 // GetRankByClass TODO:
 func GetRankByClass(c *gin.Context) {
 	fmt.Println("getRankByClass()")
+	id := c.Query("id")
+	sql := `SELECT *, RANK() OVER (ORDER BY GPA DESC) rank_num
+		FROM (SELECT id, name, GPA FROM zjw_student_total_gpa
+		WHERE class_id = ?) r;`
+	stmt, _ := util.Db.Prepare(sql)
+	defer stmt.Close()
+	rows, _ := stmt.Query(id)
+	defer rows.Close()
+	result := util.QueryAndParseRows(rows)
+	c.JSON(200, gin.H{
+		"code": 0,
+		"data": result,
+	})
 }
 
 func GetClassList(c *gin.Context) {

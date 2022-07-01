@@ -67,6 +67,7 @@ func main() {
 			student.GET("/course", controller.GetCourseByStudent)
 			student.GET("/list", controller.GetStudentList)
 			student.GET("/score", controller.GetStudentScoreByYear)
+			student.GET("/gpa", controller.GetStudentGPAByYear)
 		}
 
 		// teacher
